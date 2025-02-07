@@ -15,7 +15,7 @@ pub fn main() !void {
 
     try stdout.print("count = {}\n", .{hash_map.count()});
     if (hash_map.get("Time Series (Daily)")) |value| {
-        const dates_prices = value.object;
-        try stdout.print("{}\n", .{dates_prices.count()});
+        const prices_by_date = value.object;
+        try stdout.print("{}\n", .{prices_by_date.count()});
     }
 }
