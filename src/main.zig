@@ -8,7 +8,14 @@ pub fn main() !void {
     const gpa = general_purpose_allocator.allocator();
     const text = try stdin.readAllAlloc(gpa, 5_000_000);
 
-    _ = try std.json.parseFromSlice(std.json.Value, gpa, text, .{});
+    const parsed = try std.json.parseFromSlice(std.json.Value, gpa, text, .{});
+    defer parsed.deinit();
 
-    try stdout.print("hello\n", .{});
+    const hash_map = parsed.value.object;
+
+    try stdout.print("count = {}\n", .{hash_map.count()});
+    if (hash_map.get("Time Series (Daily)")) |value| {
+        const dates_prices = value.object;
+        try stdout.print("{}\n", .{dates_prices.count()});
+    }
 }
