@@ -5,10 +5,10 @@ pub fn main() !void {
     const stdout = std.io.getStdOut().writer();
 
     var general_purpose_allocator: std.heap.GeneralPurposeAllocator(.{}) = .init;
-    const gpa = general_purpose_allocator.allocator();
-    const text = try stdin.readAllAlloc(gpa, 5_000_000);
+    const alloc = general_purpose_allocator.allocator();
+    const text = try stdin.readAllAlloc(alloc, 5_000_000);
 
-    const parsed = try std.json.parseFromSlice(std.json.Value, gpa, text, .{});
+    const parsed = try std.json.parseFromSlice(std.json.Value, alloc, text, .{});
     defer parsed.deinit();
 
     const hash_map = parsed.value.object;
